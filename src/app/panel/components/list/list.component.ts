@@ -29,16 +29,27 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getTopic();
+    this.getTopics();
   }
 
-  getTopic() {
+  getTopics() {
     var userId = this.identity._id;
     this._topicService.getMyTopics(userId).subscribe(
       response => {
         if (response.topics) {
-          this.topics = response.topics;                
+          this.topics = response.topics;
         }
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  deleteTopic(id) {
+    this._topicService.delete(this.token, id).subscribe(
+      response => {
+        this.getTopics();
       },
       error => {
         console.log(error);
