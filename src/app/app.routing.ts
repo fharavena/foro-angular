@@ -8,18 +8,24 @@ import { LoginComponent } from "./components/login/login.component";
 import { RegisterComponent } from "./components/register/register.component";
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { TopicsComponent } from "./components/topics/topics.component";
+import { TopicDetailComponent } from './components/topic-detail/topic-detail.component';
+
+
+import { UserGuard } from './services/user.guard';
+import { NoIdentityGuard } from './services/no.identity.guard';
 
 
 // Array de rutas
 const appRoutes: Routes = [
-  { path: "", component: LoginComponent },
-  { path: "login", component: LoginComponent },
-  { path: "inicio", component: HomeComponent },
-  { path: "registro", component: RegisterComponent },
-  { path: "ajustes", component: UserEditComponent },
+  { path: "", component: HomeComponent },
+  { path: "login", component: HomeComponent },
+  { path: "inicio", canActivate: [NoIdentityGuard], component: LoginComponent },
+  { path: "registro", canActivate: [NoIdentityGuard], component: RegisterComponent },
+  { path: "ajustes", canActivate: [UserGuard], component: UserEditComponent },
   { path: "temas", component: TopicsComponent },
   { path: "temas/:page", component: TopicsComponent },
-  { path: "**", component: LoginComponent }
+  { path: "tema/:id", component: TopicDetailComponent },
+  { path: "**", component: HomeComponent }
 ];
 
 // Exportar configuracion
